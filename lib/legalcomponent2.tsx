@@ -23,7 +23,7 @@ export default function LegalComponent2(){
     const [files,setFiles]=useState<FileInfo[]>([]);
     const [selectedFiles, setSelectedFiles] =useState<FileInfo[]>([]);
     const [filestoWork, setFilestoWork] =useState<string[]>([]);
-    const [result,setResult]=useState("");
+    //const [result,setResult]=useState("");
     const [problems,setProblems]=useState<PS[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -32,7 +32,7 @@ export default function LegalComponent2(){
 
     const getPoints=async ()=>{
 
-    let request=await fetch("https://junaidb-askdocs.hf.space/checkbreakdown",{
+    const request=await fetch("https://junaidb-askdocs.hf.space/checkbreakdown",{
 
       mode:"cors",
       method:"POST",
@@ -46,7 +46,7 @@ export default function LegalComponent2(){
         "content-type":"application/json"
       }
     })
-    let response=await request.json()
+    const response=await request.json()
      if (response.breakdown) {
       setProblems(response.breakdown);
       

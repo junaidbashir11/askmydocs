@@ -40,7 +40,7 @@ export default function LegalPoints(){
         if(!isGateEnabled) return ;
 
         async function checkToken(){
-        let tokenstatus=await TokenGATING(publicKey?.toBase58());
+        const tokenstatus=await TokenGATING(publicKey?.toBase58());
         if (tokenstatus==true){
           hasToken(true)
         }
@@ -52,7 +52,7 @@ export default function LegalPoints(){
 
     const getPoints=async ()=>{
 
-    let request=await fetch("https://junaidb-askdocs.hf.space/checkproblems",{
+    const request=await fetch("https://junaidb-askdocs.hf.space/checkproblems",{
 
       mode:"cors",
       method:"POST",
@@ -66,7 +66,7 @@ export default function LegalPoints(){
         "content-type":"application/json"
       }
     })
-    let response=await request.json()
+    const  response=await request.json()
      if (response.problems) {
       setProblems(response.problems);
       

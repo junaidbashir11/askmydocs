@@ -27,7 +27,7 @@ export default function MedicalPoints(){
     const [files,setFiles]=useState<FileInfo[]>([]);
     const [selectedFiles, setSelectedFiles] =useState<FileInfo[]>([]);
     const [filestoWork, setFilestoWork] =useState<string[]>([]);
-    const [result,setResult]=useState("");
+    //const [result,setResult]=useState("");
     const [problems,setProblems]=useState<PS[]>([]);
     const [loading,setLoading]=useState(false)
     const [token,hasToken]=useState(false)
@@ -41,7 +41,7 @@ export default function MedicalPoints(){
             if(!isGateEnabled) return ;
     
             async function checkToken(){
-            let tokenstatus=await TokenGATING(publicKey?.toBase58());
+            const tokenstatus=await TokenGATING(publicKey?.toBase58());
             if (tokenstatus==true){
               hasToken(true)
             }
@@ -53,7 +53,7 @@ export default function MedicalPoints(){
 
     const getPoints=async ()=>{
 
-    let request=await fetch("https://junaidb-askdocs.hf.space/checkproblems",{
+    const request=await fetch("https://junaidb-askdocs.hf.space/checkproblems",{
 
       mode:"cors",
       method:"POST",
@@ -67,7 +67,7 @@ export default function MedicalPoints(){
         "content-type":"application/json"
       }
     })
-    let response=await request.json()
+    const  response=await request.json()
      if (response.problems) {
       setProblems(response.problems);
   }

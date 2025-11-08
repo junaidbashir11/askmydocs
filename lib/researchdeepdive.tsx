@@ -22,7 +22,7 @@ export default function ResearchDive(){
     const [files,setFiles]=useState<FileInfo[]>([]);
     const [selectedFiles, setSelectedFiles] =useState<FileInfo[]>([]);
     const [filestoWork, setFilestoWork] =useState<string[]>([]);
-    const [result,setResult]=useState("");
+    //const [result,setResult]=useState("");
     const [problems,setProblems]=useState<PS[]>([]);
     const [loading,setLoading]=useState(false)
 
@@ -30,7 +30,7 @@ export default function ResearchDive(){
 
     const getPoints=async ()=>{
 
-    let request=await fetch("https://junaidb-askdocs.hf.space/checkdive",{
+    const request=await fetch("https://junaidb-askdocs.hf.space/checkdive",{
 
       mode:"cors",
       method:"POST",
@@ -44,7 +44,7 @@ export default function ResearchDive(){
         "content-type":"application/json"
       }
     })
-    let response=await request.json()
+    const response=await request.json()
      if (response.dive) {
       setProblems(response.dive);
   }
@@ -53,7 +53,7 @@ export default function ResearchDive(){
 
     const LegalProblems=async ()=> {
 
-                   setLoading(true);
+  setLoading(true);
   try {
     const request = await fetch("https://junaidb-askdocs.hf.space/researchdeepdive", {
       method: "POST",

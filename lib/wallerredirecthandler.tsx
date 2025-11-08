@@ -17,7 +17,7 @@ export function WalletRedirectHandler({ children }: { children: React.ReactNode 
     
 
       async function  checkpresence() {
-      let request=await fetch(`https://junaidb-askdocs.hf.space/checkaccount`,{
+      const request=await fetch(`https://junaidb-askdocs.hf.space/checkaccount`,{
 
         method:"POST",
         mode:"cors",
@@ -30,7 +30,7 @@ export function WalletRedirectHandler({ children }: { children: React.ReactNode 
       }
 
       )
-      let response=await request.json()
+      const response=await request.json()
       if (response.status==true){
         return true
       }
@@ -41,7 +41,7 @@ export function WalletRedirectHandler({ children }: { children: React.ReactNode 
     }
     async  function setupaccount(){
 
-      let request=await fetch("https://junaidb-askdocs.hf.space/setupaccount",{
+      const request=await fetch("https://junaidb-askdocs.hf.space/setupaccount",{
 
         method:"POST",
         mode:"cors",
@@ -53,7 +53,7 @@ export function WalletRedirectHandler({ children }: { children: React.ReactNode 
   },
       
       });
-      let response=await request.json()
+      const response=await request.json()
       if (response.status==true){
         return true;
       }

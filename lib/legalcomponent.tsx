@@ -10,7 +10,7 @@ interface FileInfo {
   file_name: string;
 }
 
-import { Skeleton } from "@/components/ui/skeleton"
+
 
 export default function LegalComponent() {
   const { connected, publicKey } = useWallet();
@@ -91,7 +91,7 @@ export default function LegalComponent() {
   }, [connected, publicKey]);
 
   if (!connected) return <div>Redirecting...</div>;
-
+  console.log(filestoWork)
   return (
     <main className="p-8 border border-gray-700 rounded-2xl bg-gray-800/30 backdrop-blur-sm shadow-xl">
       <h3 className="text-xl font-semibold text-white mb-4">Legal </h3>

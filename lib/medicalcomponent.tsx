@@ -97,7 +97,7 @@ export default function LegalComponent() {
 
   
 
-
+  console.log(filestoWork);
   return (
     <main className="p-8 border border-gray-700 rounded-2xl bg-gray-800/30 backdrop-blur-sm shadow-xl">
       <h3 className="text-xl font-semibold text-white mb-4">Medical</h3>
