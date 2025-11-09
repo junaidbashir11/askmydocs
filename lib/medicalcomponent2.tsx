@@ -28,7 +28,7 @@ export default function MedicalComponent2(){
 
 
 
-    const getPoints=async ()=>{
+    const getbreakdown=async ()=>{
 
     const request=await fetch("https://junaidb-askdocs.hf.space/checkbreakdown",{
 
@@ -52,7 +52,7 @@ export default function MedicalComponent2(){
 
   }
 
-    const LegalProblems=async ()=> {
+    const medicalbreakdown=async ()=> {
 
         //setProblems([]);
                       setLoading(true);
@@ -72,7 +72,7 @@ export default function MedicalComponent2(){
     await request.json(); // wait for backend response
 
     // ✅ Always fetch updated breakdowns
-    await getPoints();
+    await getbreakdown();
 
     toast("Problems identified");
   } catch (err) {
@@ -87,8 +87,8 @@ export default function MedicalComponent2(){
 
       }
 
-     useEffect(() => {
-        const checkFileExistence = async () => {
+  
+const checkFileExistence = async () => {
 
         try {
             const response = await fetch('https://junaidb-askdocs.hf.space/checkfile', {
@@ -121,15 +121,20 @@ export default function MedicalComponent2(){
       } 
     };
 
-    if (connected) {
-        checkFileExistence();
-    }
-  }, [connected]); 
-
-  
-  
+    
   useEffect(() => {
-    getPoints();
+    
+
+     (async () => {
+    try {
+      await Promise.all([
+        checkFileExistence(),
+        getbreakdown()
+      ]);
+    } catch (err) {
+      console.error(err);
+    }
+  })();
   }, [connected, publicKey]);
 
 
@@ -178,7 +183,7 @@ export default function MedicalComponent2(){
     {filestoWork.length !==0?(
 
          <Button
-    onClick={LegalProblems}
+    onClick={medicalbreakdown}
     >
        Breakdown
     </Button>
@@ -238,7 +243,7 @@ export default function MedicalComponent2(){
           className="text-sm rounded-xl text-sm border border-gray-700 bg-gray-800/60 p-5 text-gray-100  leading-relaxed shadow-sm hover:shadow-md transition-shadow"
           dangerouslySetInnerHTML={{
             __html: item.breakdown
-              .replace(/\*\*(.*?)\*\*/g, "<strong class='text-blue-400'>$1</strong>")
+              .replace(/\*\*(.*?)\*\*/g, "<strong class='text-blue-400'></strong>")
               .replace(/- /g, "• ")
               .replace(/\n/g, "<br/>"),
           }}

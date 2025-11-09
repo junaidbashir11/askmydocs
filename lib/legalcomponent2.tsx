@@ -30,7 +30,23 @@ export default function LegalComponent2(){
 
 
 
-    const getPoints=async ()=>{
+  useEffect(() => {
+  if (!publicKey) return;
+
+  (async () => {
+    try {
+      await Promise.all([
+        checkFileExistence(),
+        getbreakdown()
+      ]);
+    } catch (err) {
+      console.error(err);
+    }
+  })();
+}, [publicKey]);
+    
+
+    const getbreakdown=async ()=>{
 
     const request=await fetch("https://junaidb-askdocs.hf.space/checkbreakdown",{
 
@@ -54,7 +70,7 @@ export default function LegalComponent2(){
 
   }
 
-    const LegalProblems=async ()=> {
+    const legalbreakdown=async ()=> {
 
         //setProblems([]);
          setLoading(true);
@@ -74,7 +90,7 @@ export default function LegalComponent2(){
     await request.json(); // wait for backend response
 
     // ✅ Always fetch updated breakdowns
-    await getPoints();
+    await getbreakdown();
 
     toast("Problems identified");
   } catch (err) {
@@ -87,8 +103,8 @@ export default function LegalComponent2(){
 
       }
 
-     useEffect(() => {
-        const checkFileExistence = async () => {
+    
+const checkFileExistence = async () => {
 
         try {
             const response = await fetch('https://junaidb-askdocs.hf.space/checkfile', {
@@ -121,23 +137,22 @@ export default function LegalComponent2(){
       } 
     };
 
-    if (connected) {
-        checkFileExistence();
-    }
-  }, [connected]); 
-
   
-  
+/*    
   useEffect(() => {
-    getPoints();
+    getbreakdown();
+    checkFileExistence();
   }, [connected, publicKey]);
+*/
+
+
 
 
 
 
     return (
     <div>
-    <main className="p-8 border border-gray-700 rounded-2xl bg-gray-800/30 backdrop-blur-sm shadow-xl">
+   <main className="p-8 border border-gray-700 rounded-2xl bg-gray-800/30 backdrop-blur-sm shadow-xl">
     <h3 className="text-xl font-semibold text-white mb-4">Document Breakdown</h3>
     <div className="flex justify-center items-start gap-8 w-full max-w-5xl">
     <section className="w-1/2">
@@ -178,7 +193,7 @@ export default function LegalComponent2(){
     {filestoWork.length !==0?(
 
          <Button
-    onClick={LegalProblems}
+    onClick={legalbreakdown}
     >
        Breakdown
     </Button>
@@ -227,18 +242,16 @@ export default function LegalComponent2(){
     
     
     (<section>
-
-      
-      <ScrollArea className="h-[60vh] w-full max-w-[1000px] mx-auto rounded-xl border border-gray-800 bg-gray-900/70 p-6 shadow-lg backdrop-blur-sm overflow-y-auto">
+   <ScrollArea className="h-[60vh] w-full max-w-[900px] mx-auto rounded-xl border border-gray-800 bg-gray-900/70 p-6 shadow-lg backdrop-blur-sm overflow-y-auto">
   {hasFile && problems?.length > 0 ? (
     <section className="space-y-6">
       {problems.map((item, index) => (
-        <div
+          <div
           key={index}
           className="text-sm rounded-xl text-sm border border-gray-700 bg-gray-800/60 p-5 text-gray-100  leading-relaxed shadow-sm hover:shadow-md transition-shadow"
           dangerouslySetInnerHTML={{
             __html: item.breakdown
-              .replace(/\*\*(.*?)\*\*/g, "<strong class='text-blue-400'>$1</strong>")
+              .replace(/\*\*(.*?)\*\*/g, "<strong class='text-blue-400'></strong>")
               .replace(/- /g, "• ")
               .replace(/\n/g, "<br/>"),
           }}
@@ -251,15 +264,14 @@ export default function LegalComponent2(){
     </section>
   )}
 </ScrollArea>
-
+      
+    
     </section>)}
 
 
 
 
 
-
-   
      
     </section>
     </div>

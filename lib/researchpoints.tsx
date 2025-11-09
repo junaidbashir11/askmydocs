@@ -70,7 +70,7 @@ export default function ResearchPoints(){
 
   }
 
-    const LegalProblems=async ()=> {
+    const researchpoints=async ()=> {
 
                       setLoading(true);
   try {
@@ -104,7 +104,7 @@ export default function ResearchPoints(){
 
       }
 
-     useEffect(() => {
+
         const checkFileExistence = async () => {
 
         try {
@@ -138,15 +138,21 @@ export default function ResearchPoints(){
       } 
     };
 
-    if (connected) {
-        checkFileExistence();
-    }
-  }, [connected]); 
+   
 
-  
-  
   useEffect(() => {
-    getPoints();
+   
+
+     (async () => {
+    try {
+      await Promise.all([
+        checkFileExistence(),
+        getPoints()
+      ]);
+    } catch (err) {
+      console.error(err);
+    }
+  })();
   }, [connected, publicKey]);
 
 
@@ -201,7 +207,7 @@ export default function ResearchPoints(){
   {filestoWork.length !==0?(
 
          <Button
-    onClick={LegalProblems}
+    onClick={researchpoints}
     >
        Identify  Key Problems
     </Button>
@@ -257,7 +263,7 @@ export default function ResearchPoints(){
           className="text-sm rounded-xl border border-gray-700 bg-gray-800/60 p-5 text-gray-100 font-mono leading-relaxed shadow-sm hover:shadow-md transition-shadow"
           dangerouslySetInnerHTML={{
             __html: item.problems
-              .replace(/\*\*(.*?)\*\*/g, "<strong class='text-blue-400'>$1</strong>")
+              .replace(/\*\*(.*?)\*\*/g, "<strong class='text-blue-400'></strong>")
               .replace(/- /g, "• ")
               .replace(/\n/g, "<br/>"),
           }}

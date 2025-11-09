@@ -27,8 +27,11 @@ export default function LegalDive(){
     const [loading,setLoading]=useState(false);
 
 
+ 
 
-    const getPoints=async ()=>{
+
+
+    const getdeepdive=async ()=>{
 
     const request=await fetch("https://junaidb-askdocs.hf.space/checkdive",{
 
@@ -51,7 +54,7 @@ export default function LegalDive(){
 
   }
 
-    const LegalProblems=async ()=> {
+    const legaldeepdive=async ()=> {
 
       
         //setProblems([]);
@@ -72,7 +75,7 @@ export default function LegalDive(){
     await request.json(); // wait for backend response
 
     // ✅ Always fetch updated breakdowns
-    await getPoints();
+    await getdeepdive();
 
     toast("Problems identified");
   } catch (err) {
@@ -91,8 +94,8 @@ export default function LegalDive(){
 
       }
 
-     useEffect(() => {
-        const checkFileExistence = async () => {
+     
+const checkFileExistence = async () => {
 
         try {
             const response = await fetch('https://junaidb-askdocs.hf.space/checkfile', {
@@ -125,17 +128,25 @@ export default function LegalDive(){
       } 
     };
 
-    if (connected) {
-        checkFileExistence();
+
+ 
+ useEffect(() => {
+  if (!publicKey) return;
+   
+     (async () => {
+    try {
+      await Promise.all([
+        checkFileExistence(),
+        getdeepdive()
+      ]);
+    } catch (err) {
+      console.error(err);
     }
-  }, [connected]); 
+  })();
 
-  
-  
-  useEffect(() => {
-    getPoints();
-  }, [connected, publicKey]);
 
+    
+  }, [publicKey]);
 
 
 
@@ -179,7 +190,7 @@ export default function LegalDive(){
 
     {/* Upload More Documents Section */}
     <Button
-    onClick={LegalProblems}
+    onClick={legaldeepdive}
     >
         Get Answers to questions before you think 
     </Button>
@@ -228,7 +239,7 @@ export default function LegalDive(){
           className="text-sm rounded-xl border border-gray-700 bg-gray-800/60 p-5 text-gray-100 font-mono leading-relaxed shadow-sm hover:shadow-md transition-shadow"
           dangerouslySetInnerHTML={{
             __html: item.dive
-              .replace(/\*\*(.*?)\*\*/g, "<strong class='text-blue-400'>$1</strong>")
+              .replace(/\*\*(.*?)\*\*/g, "<strong class='text-blue-400'></strong>")
               .replace(/- /g, "• ")
               .replace(/\n/g, "<br/>"),
           }}
