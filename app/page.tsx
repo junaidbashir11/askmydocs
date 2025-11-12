@@ -77,7 +77,7 @@ export default function Home() {
       {/* Navbar */}
       <nav className="sticky top-4 z-50 w-[92%] max-w-6xl mx-auto bg-neutral-900/80 backdrop-blur-xl px-6 py-3 rounded-2xl shadow-lg border border-white/10 flex items-center justify-between">
         <span className="font-semibold text-sm md:text-base text-white">
-          <span className="hidden md:inline">Askmydoc CA: </span>
+          <span className="hidden md:inline">Intellidoc CA: </span>
           <span className="font-mono text-xs md:text-sm text-gray-400">{process.env.NEXT_PUBLIC_CA}</span>
         </span>
       </nav>
