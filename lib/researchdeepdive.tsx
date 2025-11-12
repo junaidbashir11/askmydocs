@@ -5,6 +5,9 @@ import { ScrollArea} from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner"
 import { Skeleton } from "@/components/ui/skeleton";
+import TokenGATING from "./tokengatingv2";
+import NoAccessCard from "./accessdenied";
+
 
 interface FileInfo {
   file_name: string;
@@ -25,8 +28,25 @@ export default function ResearchDive(){
     //const [result,setResult]=useState("");
     const [problems,setProblems]=useState<PS[]>([]);
     const [loading,setLoading]=useState(false)
+    const [token,hasToken]=useState(false)
+    const isGateEnabled=process.env.NEXT_PUBLIC_CLOSEOFF==="TRUE";
 
 
+
+
+     useEffect(()=>{
+             
+                     if(!isGateEnabled) return ;
+             
+                     async function checkToken(){
+                     const tokenstatus=await TokenGATING(publicKey?.toBase58());
+                     if (tokenstatus==true){
+                       hasToken(true)
+                     }
+                   }
+                   checkToken()
+                 
+                   },[publicKey,connected])
 
     const getdeepdive=async ()=>{
 
@@ -134,6 +154,14 @@ export default function ResearchDive(){
   })();
   }, [connected, publicKey]);
 
+
+
+     if (isGateEnabled && !token){
+              return (
+                <NoAccessCard/>
+              )
+            }
+      
 
 
 

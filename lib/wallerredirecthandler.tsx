@@ -22,7 +22,7 @@ export function WalletRedirectHandler({ children }: { children: React.ReactNode 
         const check = await fetch(`https://junaidb-askdocs.hf.space/checkaccount`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ owner }),
+          body: JSON.stringify({ "owner":owner }),
         });
 
         const checkRes = await check.json();
@@ -32,7 +32,7 @@ export function WalletRedirectHandler({ children }: { children: React.ReactNode 
           await fetch(`https://junaidb-askdocs.hf.space/setupaccount`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ owner }),
+            body: JSON.stringify({ "owner":owner }),
           });
         }
       } catch (err) {

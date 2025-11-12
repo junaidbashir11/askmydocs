@@ -153,7 +153,7 @@ export default function Home() {
         
         <div className="pt-6">
           <p className="text-base text-gray-300">
-            Hold <span className="font-semibold text-purple-400">50k $ID tokens</span> to unlock premium features
+            Hold <span className="font-semibold text-purple-400">10k $ID tokens</span> to unlock premium features
           </p>
         </div>
       </section>
