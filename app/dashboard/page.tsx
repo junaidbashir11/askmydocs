@@ -63,7 +63,7 @@ export default function DashboardPage() {
             Twitter
           </a>
           <a
-            href="https://pump.fun"
+            href={process.env.NEXT_PUBLIC_PUMP_ENDPOINT}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-semibold hover:text-purple-400 transition-colors"
