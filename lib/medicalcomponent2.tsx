@@ -90,6 +90,15 @@ export default function MedicalComponent2(){
   
 const checkFileExistence = async () => {
 
+
+      const storedfiles=localStorage.getItem("medicalfiles")
+      if (storedfiles){
+          const parsedstoredfiles=JSON.parse(storedfiles)
+          setFiles(parsedstoredfiles)
+          sethasFile(true);
+
+        }
+
         try {
             const response = await fetch('https://junaidb-askdocs.hf.space/checkfile', {
         
@@ -114,6 +123,7 @@ const checkFileExistence = async () => {
         // ✅ If files exist, fetch them and enable chat
         if (data.status === true && data.files) {
             setFiles(data.files);
+            localStorage.setItem("medicalfiles",JSON.stringify(data.files))
         }
         
       } catch (err) {

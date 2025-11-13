@@ -17,8 +17,10 @@ import ResearchPoints from "@/lib/researchpoints";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
-import { FileText, Stethoscope, FlaskConical, FileSignature } from "lucide-react";
+import { FileText, Stethoscope, FlaskConical, FileSignature,TwitterIcon} from "lucide-react";
 import dynamic from 'next/dynamic';
+import Image from "next/image";
+
 
 
 const WalletButton = dynamic(
@@ -32,18 +34,13 @@ const WalletButton = dynamic(
 export default function DashboardPage() {
   const { connected, publicKey } = useWallet();
   const router = useRouter();
-
-
+  const [activeCategory, setActiveCategory] = useState("Legal");
 
   useEffect(() => {
     if (!connected && !publicKey) {
       router.push("/");
     }
   }, [connected, router, publicKey]);
-
-
- 
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-neutral-900 to-black font-sans">
@@ -53,14 +50,14 @@ export default function DashboardPage() {
 
       {/* Floating Nav */}
       <nav className="fixed top-2 right-6 z-50">
-        <div className="flex items-center gap-4 px-6 py-3 rounded-2xl bg-neutral-900/80 backdrop-blur-xl text-white shadow-lg border border-white/10">
+        <div className="flex items-center gap-7 px-6 py-3  text-white shadow-lg border border-white/10">
           <a
             href="https://twitter.com"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-semibold hover:text-purple-400 transition-colors"
           >
-            Twitter
+            <TwitterIcon/>
           </a>
           <a
             href={process.env.NEXT_PUBLIC_PUMP_ENDPOINT}
@@ -68,49 +65,80 @@ export default function DashboardPage() {
             rel="noopener noreferrer"
             className="text-sm font-semibold hover:text-purple-400 transition-colors"
           >
-            Pump.fun
+            <Image
+              src="/pump-logomark.svg"
+              alt=";"
+              width={35}
+              height={35}
+            />
           </a>
           <WalletButton />
         </div>
       </nav>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-20">
-        <Tabs defaultValue="Legal" className="space-y-6">
-          {/* Main Category Tabs */}
-          <TabsList className="bg-neutral-900/80 backdrop-blur-sm border border-white/10 p-2 rounded-2xl shadow-xl w-full justify-start">
-            <TabsTrigger 
-              value="Legal" 
-              className="data-[state=active]:bg-blue-500 data-[state=active]:text-white rounded-xl py-3 px-6 transition-all font-semibold flex items-center gap-2 text-gray-400"
-            >
-              <FileText className="w-4 h-4" />
-              Legal
-            </TabsTrigger>
-            <TabsTrigger 
-              value="Medical" 
-              className="data-[state=active]:bg-emerald-500 data-[state=active]:text-white rounded-xl py-3 px-6 transition-all font-semibold flex items-center gap-2 text-gray-400"
-            >
-              <Stethoscope className="w-4 h-4" />
-              Medical
-            </TabsTrigger>
-            <TabsTrigger 
-              value="Research" 
-              className="data-[state=active]:bg-purple-500 data-[state=active]:text-white rounded-xl py-3 px-6 transition-all font-semibold flex items-center gap-2 text-gray-400"
-            >
-              <FlaskConical className="w-4 h-4" />
-              Research
-            </TabsTrigger>
-            <TabsTrigger 
-              value="Contract" 
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white rounded-xl py-3 px-6 transition-all font-semibold flex items-center gap-2 text-gray-400"
-            >
-              <FileSignature className="w-4 h-4" />
-              Contract
-            </TabsTrigger>
-          </TabsList>
+      {/* Fixed Left Sidebar */}
+      <aside className="fixed left-0 top-0 h-screen w-64 bg-neutral-900/80 backdrop-blur-sm border-r border-white/10 shadow-xl z-40 flex flex-col">
+        <div className="p-6">
+          <h1 className="text-2xl font-bold text-white mb-2">Dashboard</h1>
+          <p className="text-gray-400 text-sm">Document Intelligence</p>
+        </div>
+        
+        <nav className="flex-1 px-4 space-y-2">
+          <button
+            onClick={() => setActiveCategory("Legal")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-semibold ${
+              activeCategory === "Legal"
+                ? "bg-blue-500 text-white shadow-lg"
+                : "text-gray-400 hover:bg-neutral-800/50"
+            }`}
+          >
+            <FileText className="w-5 h-5" />
+            Legal
+          </button>
 
+          <button
+            onClick={() => setActiveCategory("Medical")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-semibold ${
+              activeCategory === "Medical"
+                ? "bg-emerald-500 text-white shadow-lg"
+                : "text-gray-400 hover:bg-neutral-800/50"
+            }`}
+          >
+            <Stethoscope className="w-5 h-5" />
+            Medical
+          </button>
+
+          <button
+            onClick={() => setActiveCategory("Research")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-semibold ${
+              activeCategory === "Research"
+                ? "bg-purple-500 text-white shadow-lg"
+                : "text-gray-400 hover:bg-neutral-800/50"
+            }`}
+          >
+            <FlaskConical className="w-5 h-5" />
+            Research
+          </button>
+
+          <button
+            onClick={() => setActiveCategory("Contract")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-semibold ${
+              activeCategory === "Contract"
+                ? "bg-orange-500 text-white shadow-lg"
+                : "text-gray-400 hover:bg-neutral-800/50"
+            }`}
+          >
+            <FileSignature className="w-5 h-5" />
+            Contract
+          </button>
+        </nav>
+      </aside>
+
+      {/* Main Content */}
+      <main className="ml-64 px-6 py-20">
+        <div className="max-w-6xl mx-auto">
           {/* LEGAL */}
-          <TabsContent value="Legal" className="space-y-6">
+          {activeCategory === "Legal" && (
             <Tabs defaultValue="upload">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
@@ -151,10 +179,10 @@ export default function DashboardPage() {
               <TabsContent value="Keypoints"><LegalPoints /></TabsContent>
               <TabsContent value="Answers before you even think"><LegalDive /></TabsContent>
             </Tabs>
-          </TabsContent>
+          )}
 
           {/* MEDICAL */}
-          <TabsContent value="Medical" className="space-y-6">
+          {activeCategory === "Medical" && (
             <Tabs defaultValue="upload">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
@@ -191,21 +219,13 @@ export default function DashboardPage() {
 
               <TabsContent value="upload"><MedicalComponent /></TabsContent>
               <TabsContent value="Q&A"><MedicalComponent2 /></TabsContent>
-              <TabsContent value="Keypoints">
-              
-                  <MedicalPoints />
-                
-              </TabsContent>
-              <TabsContent value="Answers before you even think">
-            
-              <MedicalDive />
-                
-              </TabsContent>
+              <TabsContent value="Keypoints"><MedicalPoints /></TabsContent>
+              <TabsContent value="Answers before you even think"><MedicalDive /></TabsContent>
             </Tabs>
-          </TabsContent>
+          )}
 
           {/* RESEARCH */}
-          <TabsContent value="Research" className="space-y-6">
+          {activeCategory === "Research" && (
             <Tabs defaultValue="upload">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
@@ -242,20 +262,13 @@ export default function DashboardPage() {
 
               <TabsContent value="upload"><ResearchComponent /></TabsContent>
               <TabsContent value="Q&A"><ResearchComponent2 /></TabsContent>
-              <TabsContent value="Keypoints">
-              
-                  <ResearchPoints />
-                  
-              </TabsContent>
-              <TabsContent value="Answers before you even think">
-                
-                <ResearchDive />
-              </TabsContent>
+              <TabsContent value="Keypoints"><ResearchPoints /></TabsContent>
+              <TabsContent value="Answers before you even think"><ResearchDive /></TabsContent>
             </Tabs>
-          </TabsContent>
+          )}
 
           {/* CONTRACT */}
-          <TabsContent value="Contract" className="space-y-6">
+          {activeCategory === "Contract" && (
             <Tabs defaultValue="Q8A">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
@@ -285,7 +298,7 @@ export default function DashboardPage() {
                     value="Answers before you even think" 
                     className="text-gray-400 data-[state=active]:bg-orange-500 data-[state=active]:text-white rounded-lg px-4 py-2 text-sm font-medium transition-all"
                   >
-                      Q&A Generation
+                    Q&A Generation
                   </TabsTrigger>
                 </TabsList>
               </div>
@@ -318,8 +331,8 @@ export default function DashboardPage() {
                 </div>
               </TabsContent>
             </Tabs>
-          </TabsContent>
-        </Tabs>
+          )}
+        </div>
       </main>
     </div>
   );

@@ -31,17 +31,20 @@ export default function MedicalDive(){
     const [loading,setLoading]=useState(false)
     const [token,hasToken]=useState(false)
     const isGateEnabled=process.env.NEXT_PUBLIC_CLOSEOFF==="TRUE";
-
+    const [isChecking, setIsChecking] = useState(false)
 
 
       useEffect(()=>{
          
                  if(!isGateEnabled) return ;
+                 if(token) return ;
          
+                 setIsChecking(true)
                  async function checkToken(){
                  const tokenstatus=await TokenGATING(publicKey?.toBase58());
                  if (tokenstatus==true){
                    hasToken(true)
+                   setIsChecking(false)
                  }
                }
                checkToken()
@@ -110,6 +113,15 @@ export default function MedicalDive(){
 
 const checkFileExistence = async () => {
 
+
+      const storedfiles=localStorage.getItem("medicalfiles")
+      if (storedfiles){
+          const parsedstoredfiles=JSON.parse(storedfiles)
+          setFiles(parsedstoredfiles)
+          sethasFile(true);
+
+        }
+
         try {
             const response = await fetch('https://junaidb-askdocs.hf.space/checkfile', {
         
@@ -134,6 +146,7 @@ const checkFileExistence = async () => {
         // ✅ If files exist, fetch them and enable chat
         if (data.status === true && data.files) {
             setFiles(data.files);
+            localStorage.setItem("medicalfiles",JSON.stringify(data.files))
         }
         
       } catch (err) {
@@ -160,18 +173,18 @@ const checkFileExistence = async () => {
   }, [connected, publicKey]);
 
 
-   if (isGateEnabled && !token){
-          return (
-            <NoAccessCard/>
-          )
-        }
+   
+    if (isGateEnabled && !isChecking && !token) {
+       return <NoAccessCard />;
+     }
+     
   
 
 
     return (
     <div>
     <main className="p-8 border border-gray-700 rounded-2xl bg-gray-800/30 backdrop-blur-sm shadow-xl">
-    <h3 className="text-xl font-semibold text-white mb-4">Answers to your questions before you even  think </h3>
+    <h3 className="text-xl font-semibold text-white mb-4">Q&A Pairs </h3>
     <div className="flex justify-center items-start gap-8 w-full max-w-5xl">
     <section className="w-1/2">
         
@@ -210,7 +223,7 @@ const checkFileExistence = async () => {
     <Button
     onClick={medicaldeepdive}
     >
-        Get Answers to questions before you think 
+        Q&A Pairs
     </Button>
   
   </section>

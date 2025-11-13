@@ -32,6 +32,7 @@ export default function MedicalPoints(){
     const [loading,setLoading]=useState(false)
     const [token,hasToken]=useState(false)
     const isGateEnabled=process.env.NEXT_PUBLIC_CLOSEOFF==="TRUE";
+    const [isChecking, setIsChecking] = useState(false)
 
 
 
@@ -39,11 +40,14 @@ export default function MedicalPoints(){
     useEffect(()=>{
     
             if(!isGateEnabled) return ;
+            if(token) return ;
     
+            setIsChecking(true)
             async function checkToken(){
             const tokenstatus=await TokenGATING(publicKey?.toBase58());
             if (tokenstatus==true){
               hasToken(true)
+              setIsChecking(false)
             }
           }
           checkToken()
@@ -112,6 +116,15 @@ export default function MedicalPoints(){
 
       const checkFileExistence = async () => {
 
+
+      const storedfiles=localStorage.getItem("medicalfiles")
+      if (storedfiles){
+          const parsedstoredfiles=JSON.parse(storedfiles)
+          setFiles(parsedstoredfiles)
+          sethasFile(true);
+
+        }
+
         try {
             const response = await fetch('https://junaidb-askdocs.hf.space/checkfile', {
         
@@ -136,6 +149,7 @@ export default function MedicalPoints(){
         // ✅ If files exist, fetch them and enable chat
         if (data.status === true && data.files) {
             setFiles(data.files);
+            localStorage.setItem("medicalfiles",JSON.stringify(data.files))
         }
         
       } catch (err) {
@@ -159,11 +173,11 @@ export default function MedicalPoints(){
   }, [connected, publicKey]);
 
 
-  if (isGateEnabled && !token){
-        return (
-          <NoAccessCard/>
-        )
-      }
+  
+    if (isGateEnabled && !isChecking && !token) {
+      return <NoAccessCard />;
+    }
+    
   
 
 

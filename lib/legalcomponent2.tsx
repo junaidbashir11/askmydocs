@@ -106,6 +106,17 @@ export default function LegalComponent2(){
     
 const checkFileExistence = async () => {
 
+
+
+        const storedfiles=localStorage.getItem("legalfiles")
+      if (storedfiles){
+          const parsedstoredfiles=JSON.parse(storedfiles)
+          setFiles(parsedstoredfiles)
+          sethasFile(true);
+
+        }
+    
+
         try {
             const response = await fetch('https://junaidb-askdocs.hf.space/checkfile', {
         
@@ -127,14 +138,18 @@ const checkFileExistence = async () => {
         const data = await response.json();
         sethasFile(data.status);
         
-        // ✅ If files exist, fetch them and enable chat
+        // ✅ If files exist, fetch them and enable
         if (data.status === true && data.files) {
             setFiles(data.files);
+            localStorage.setItem("legalfiles",JSON.stringify(data.files))
         }
-        
+       
       } catch (err) {
         console.log(err)
       } 
+    
+
+
     };
 
   

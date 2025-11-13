@@ -25,6 +25,7 @@ export default function LegalComponent() {
   const checkFileExistence = async () => {
     if (!publicKey) return;
 
+   
     try {
       const response = await fetch("https://junaidb-askdocs.hf.space/checkfile", {
         method: "POST",
@@ -76,6 +77,7 @@ export default function LegalComponent() {
 
       // ✅ Clear local files & immediately recheck
       setActualFiles([]);
+      localStorage.removeItem("legalfiles");
       await checkFileExistence(); // ensures immediate UI update
     } catch (err) {
       console.error(err);

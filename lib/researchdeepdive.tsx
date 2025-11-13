@@ -30,6 +30,7 @@ export default function ResearchDive(){
     const [loading,setLoading]=useState(false)
     const [token,hasToken]=useState(false)
     const isGateEnabled=process.env.NEXT_PUBLIC_CLOSEOFF==="TRUE";
+    const [isChecking, setIsChecking] = useState(false)
 
 
 
@@ -37,11 +38,14 @@ export default function ResearchDive(){
      useEffect(()=>{
              
                      if(!isGateEnabled) return ;
+                     if(token) return ;
              
+                     setIsChecking(true)
                      async function checkToken(){
                      const tokenstatus=await TokenGATING(publicKey?.toBase58());
                      if (tokenstatus==true){
                        hasToken(true)
+                       setIsChecking(false)
                      }
                    }
                    checkToken()
@@ -89,7 +93,7 @@ export default function ResearchDive(){
 
     await request.json(); // wait for backend response
 
-    // ✅ Always fetch updated breakdowns
+    // ✅ 
     await getdeepdive();
 
     toast("Problems identified");
@@ -105,6 +109,15 @@ export default function ResearchDive(){
       }
 
         const checkFileExistence = async () => {
+
+
+      const storedfiles=localStorage.getItem("researchfiles")
+      if (storedfiles){
+          const parsedstoredfiles=JSON.parse(storedfiles)
+          setFiles(parsedstoredfiles)
+          sethasFile(true);
+
+        }
 
         try {
             const response = await fetch('https://junaidb-askdocs.hf.space/checkfile', {
@@ -130,6 +143,7 @@ export default function ResearchDive(){
         // ✅ If files exist, fetch them and enable chat
         if (data.status === true && data.files) {
             setFiles(data.files);
+            localStorage.setItem("researchfiles",JSON.stringify(data.files))
         }
         
       } catch (err) {
@@ -156,11 +170,11 @@ export default function ResearchDive(){
 
 
 
-     if (isGateEnabled && !token){
-              return (
-                <NoAccessCard/>
-              )
-            }
+    
+      if (isGateEnabled && !isChecking && !token) {
+        return <NoAccessCard />;
+      }
+      
       
 
 
@@ -168,7 +182,7 @@ export default function ResearchDive(){
     return (
     <div>
     <main className="p-8 border border-gray-700 rounded-2xl bg-gray-800/30 backdrop-blur-sm shadow-xl">
-    <h3 className="text-xl font-semibold text-white mb-4">Answers to your questions before you even  think </h3>
+    <h3 className="text-xl font-semibold text-white mb-4">Q&A Pairs </h3>
     <div className="flex justify-center items-start gap-8 w-full max-w-5xl">
     <section className="w-1/2">
         
@@ -207,7 +221,7 @@ export default function ResearchDive(){
     <Button
     onClick={researchdeepdive}
     >
-        Get Answers to questions before you think 
+        Q&A Pairs
     </Button>
   
   </section>

@@ -1,0 +1,17 @@
+     <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 64 64" aria-labelledby="title desc" role="img">
+                  <title id="title">InteliDoc logo</title>
+                  <desc id="desc">Minimal document icon with three connected nodes representing AI intelligence.</desc>
+
+                  <rect x="6" y="6" width="40" height="52" rx="3" ry="3" fill="#1f1f1f" stroke="#a855f7" strokeWidth="2"/>
+                  <path d="M46 6v12h12" fill="#1f1f1f" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M46 6 L58 6 L46 18 Z" fill="#2d2d2d" stroke="#a855f7" strokeWidth="1.2" strokeLinejoin="round"/>
+
+                  <g transform="translate(16,18)">
+                    <line x1="10" y1="6" x2="30" y2="6" stroke="#a855f7" strokeWidth="1.8" strokeLinecap="round"/>
+                    <line x1="20" y1="6" x2="20" y2="22" stroke="#a855f7" strokeWidth="1.8" strokeLinecap="round"/>
+                    
+                    <circle cx="10" cy="6" r="3.3" fill="#a855f7"/>
+                    <circle cx="30" cy="6" r="3.3" fill="#ec4899"/>
+                    <circle cx="20" cy="22" r="3.3" fill="#8b5cf6"/>
+                  </g>
+                </svg>

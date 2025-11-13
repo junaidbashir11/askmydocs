@@ -13,7 +13,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import dynamic from 'next/dynamic';
-import { FileText, Zap, MessageSquare, BookOpen } from 'lucide-react';
+import { FileText, Zap, MessageSquare, BookOpen,TwitterIcon } from 'lucide-react';
+import Image from "next/image";
+
 
 const WalletButton = dynamic(
   () => import('@/lib/solanawalletbutton').then(mod => mod.SolanaWalletButton),
@@ -42,6 +44,30 @@ const data = [
   
 ];
 
+
+
+const data2 = [
+  {
+    name: "Legal Document Analysis",
+    description: "Instantly understand , assess risk  & generate QA pairs  for complex legal documents with AI-powered analysis",
+    icon: <Zap className="w-8 h-8 text-purple-400" />
+  },
+   {
+    name: "Medical Document Analysis",
+    description: "Instantly understand , assess risk  & generate QA pairs  for medical  documents with AI-powered analysis",
+    icon: <Zap className="w-8 h-8 text-purple-400" />
+  },
+    
+ {
+    name: "Research Document Analysis",
+    description: "Instantly understand , assess risk  & generate QA pairs  for complex research documents with AI-powered analysis",
+    icon: <Zap className="w-8 h-8 text-purple-400" />
+  }
+  
+];
+
+
+
 function CarouselV() {
   return (
     <Carousel opts={{ align: "start" }} className="w-full max-w-5xl mx-auto">
@@ -66,6 +92,35 @@ function CarouselV() {
   );
 }
 
+
+function CarouselV2() {
+  return (
+    <Carousel opts={{ align: "start" }} className="w-full max-w-5xl mx-auto">
+      <CarouselContent>
+        {data2.map((item, index) => (
+          <CarouselItem key={index} className="basis-full md:basis-1/2 lg:basis-1/3 p-4">
+            <Card className="h-full bg-neutral-900/80 backdrop-blur-sm rounded-2xl border border-white/10 shadow-lg hover:shadow-2xl hover:border-purple-500/40 transition-all duration-300">
+              <CardHeader>
+                <div className="mb-3">{item.icon}</div>
+                <CardTitle className="text-xl font-semibold text-white">{item.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-400 leading-relaxed">{item.description}</p>
+              </CardContent>
+            </Card>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious className="hidden md:flex" />
+      <CarouselNext className="hidden md:flex" />
+    </Carousel>
+  );
+}
+
+
+
+
+
 export default function Home() {
   return (
     <main className="flex flex-col min-h-screen bg-gradient-to-br from-black via-neutral-900 to-black font-sans text-white">
@@ -75,12 +130,40 @@ export default function Home() {
       <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-pink-600/10 rounded-full blur-3xl"></div>
       
       {/* Navbar */}
-      <nav className="sticky top-4 z-50 w-[92%] max-w-6xl mx-auto bg-neutral-900/80 backdrop-blur-xl px-6 py-3 rounded-2xl shadow-lg border border-white/10 flex items-center justify-between">
-        <span className="font-semibold text-sm md:text-base text-white">
-          <span className="hidden md:inline">Intellidoc CA: </span>
-          <span className="font-mono text-xs md:text-sm text-gray-400">{process.env.NEXT_PUBLIC_CA}</span>
-        </span>
+
+
+    <nav className="fixed top-2 right-6 z-50">
+        <div className="flex items-center gap-7 px-6 py-3  text-white shadow-lg border border-white/10">
+          <a
+            href="https://twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold hover:text-purple-400 transition-colors"
+          >
+            <TwitterIcon/>
+          </a>
+          <a
+            href={process.env.NEXT_PUBLIC_PUMP_ENDPOINT}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold hover:text-purple-400 transition-colors"
+          >
+            <Image
+              src="/pump-logomark.svg"
+              alt=";"
+              width={35}
+              height={35}
+            />
+          </a>
+        
+        </div>
       </nav>
+
+
+
+
+      {/* Navbar End  */}
+
 
       {/* Hero Section */}
       <section className="flex flex-col flex-1 items-center justify-center text-center px-6 py-16 md:py-20">
@@ -130,7 +213,7 @@ export default function Home() {
               </h4>
               <WalletButton />
               <div className="text-sm text-gray-400 text-center">
-                Connect to unlock premium features
+                Connect your wallet to  login
               </div>
             </CardContent>
           </Card>
@@ -150,6 +233,20 @@ export default function Home() {
         </div>
         
         <CarouselV />
+
+
+
+          <div className="space-y-3">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-white">Our Services</h2>
+          <p className="text-lg text-gray-400 max-w-2xl">
+            Powerful AI-driven tools to transform how you work with documents
+          </p>
+        </div>
+
+
+
+
+        <CarouselV2/>
         
         <div className="pt-6">
           <p className="text-base text-gray-300">

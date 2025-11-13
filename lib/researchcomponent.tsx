@@ -74,6 +74,7 @@ export default function LegalComponent() {
 
       // ✅ Clear local files & immediately recheck
       setActualFiles([]);
+      localStorage.removeItem("researchfiles");
       await checkFileExistence(); // ensures immediate UI update
     } catch (err) {
       console.error(err);
